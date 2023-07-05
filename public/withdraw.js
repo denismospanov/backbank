@@ -1,7 +1,7 @@
-// add insufficient funds functionality
 function Withdraw() {
   const [show, setShow] = React.useState(true);
   const [status, setStatus] = React.useState('');
+  const [balance, setBalance] = React.useState(0); // Add balance state
 
   // Function to set the error message
   function setError(message) {
@@ -16,6 +16,7 @@ function Withdraw() {
     return (
       <>
         <h5>Success!</h5>
+        <p>Updated balance: {balance}</p> {/* Display the updated balance */}
         <button
           type="submit"
           className="btn btn-light"
@@ -61,7 +62,22 @@ function Withdraw() {
         // Check if the update was successful
         if (updateRes.status === 200) {
           console.log('Database updated successfully');
-          // Proceed with other actions or show success message
+          // Fetch the updated balance from the backend
+          fetch(`/account/all`)
+            .then(response => response.json())
+            .then(data => {
+              const user = data.find(item => item.email === email);
+              if (user) {
+                setBalance(user.balance);
+              } else {
+                props.setStatus('User not found');
+              }
+            })
+            .catch(err => {
+              props.setStatus('Error occurred');
+              console.log('Error:', err);
+            });
+
         } else {
           console.log('Failed to update the database');
           // Handle the error or show error message
@@ -108,7 +124,7 @@ function Withdraw() {
     );
   }
 
-  return (
+ return (
     <Card
       bgcolor="success" // Change the bgcolor to "success" for green color
       header="Withdraw"
