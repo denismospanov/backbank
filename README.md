@@ -86,9 +86,3 @@ The following API endpoints are available:
 ## Error Handling
 
 - **500 Internal Server Error**: Returned when an internal server error occurs.
-
-Please note that the actual behavior of the endpoints and error handling may depend on the implementation details of the `dal.js` module.
-
-The API is running on the port specified in the environment variable `PORT` or port `3000` by default.
-
-Feel free to adjust and enhance this documentation based on your specific requirements and any additional details you want to include.
